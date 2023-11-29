@@ -1,10 +1,12 @@
 from file_management import FileManagement
+from lexical_analyzer import LexicalAnalyzer
 from tui import TUI
 
 
 class SyntacticAnalyzer:
     def __init__(self):
         self.file_management = FileManagement()
+        self.lexical_analyzer = LexicalAnalyzer()
         self.tui = TUI(self.file_management)
 
     def start(self):
@@ -12,8 +14,8 @@ class SyntacticAnalyzer:
         path = self.tui.get_user_file_path()
 
         with self.file_management.open_file(path) as file:
-            content = file.read()
-            print(content)
+            for line in file:
+                self.lexical_analyzer.analyse_line(line.strip())
 
 
 syntactic_analyzer = SyntacticAnalyzer()
