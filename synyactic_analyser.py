@@ -6,16 +6,15 @@ from tui import TUI
 class SyntacticAnalyzer:
     def __init__(self):
         self.file_management = FileManagement()
-        self.lexical_analyzer = LexicalAnalyzer()
+        self.lexical_analyzer = LexicalAnalyzer(self.file_management)
         self.tui = TUI(self.file_management)
 
     def start(self):
         self.tui.show_greetings()
-        path = self.tui.get_user_file_path()
+        # path = self.tui.get_user_file_path()
+        path = "test.232"
 
-        with self.file_management.open_file(path) as file:
-            for line in file:
-                self.lexical_analyzer.analyse_line(line.strip())
+        self.lexical_analyzer.analyse(path)
 
 
 syntactic_analyzer = SyntacticAnalyzer()
