@@ -89,11 +89,12 @@ class LexicalAnalyzer:
 
     def process_line_comment(self, char, next_char):
         # print(f"line_comment {char}  --  next {next_char}")
-        pass
+        if self.utils.is_line_comment_end(char):
+            print("line comment end")
+            self.reset_status()
 
     def process_block_comment(self, char, next_char):
         # print(f"block_comment {char}  --  next {next_char}")
-        pass
         if self.utils.is_block_comment_end(char, next_char):
-            print("block end")
+            print("block comment end")
             self.reset_status()
