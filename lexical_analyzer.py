@@ -1,17 +1,17 @@
 import io
-from utils import Utils
 
 
 class LexicalAnalyzer:
     buffer = ""
     # Modes
-    # LETTER | NUMBER | LINE_COMMENT | BLOCK_COMMENT
+    # LETTER | NUMBER | REAL | LINE_COMMENT | BLOCK_COMMENT
     mode = None
     counter = 0
+    line = 1
 
-    def __init__(self, file_management):
+    def __init__(self, file_management, utils):
         self.file_management = file_management
-        self.utils = Utils()
+        self.utils = utils
         self.reserved_words = self.utils.get_reserved_table()
 
     def analyse(self, path):
@@ -37,7 +37,7 @@ class LexicalAnalyzer:
 
                     if self.mode == "LETTER":
                         self.process_var(char)
-                    elif self.mode == "NUMBER":
+                    elif self.mode == "NUMBER" or self.mode == "REAL":
                         self.process_number(char)
                     elif self.mode == "LINE_COMMENT":
                         self.process_line_comment(char, next_char)
@@ -45,6 +45,8 @@ class LexicalAnalyzer:
                         self.process_block_comment(char, next_char)
                 else:
                     print(f"Char {char} is invalid")
+                if char == "\n":
+                    self.line += 1
 
     def reset_status(self):
         self.buffer = ""
@@ -58,13 +60,21 @@ class LexicalAnalyzer:
         # Check if is a delimiter or is a not allowed char for this structure
         print(f"Buffer: {self.buffer}")
 
-        # if is a delimiter, checj if is a reserved word
-        if self.is_reserved_word(self.buffer):
-            print("RESERVADO")
-        else:
-            print("VARIABLE")
-
+        if self.mode == "LETTER":
+            # if is a delimiter, check if is a reserved word
+            if self.is_reserved_word(self.buffer):
+                print("RESERVADO")
+            else:
+                self.utils.add_symbol(self.buffer, "variavel", self.line, code="C07")
+                print("VARIABLE")
+        if self.mode == "NUMBER":
+            print("Number")
+            self.utils.add_symbol(self.buffer, "consInteiro", self.line, code="C03")
+        if self.mode == "REAL":
+            self.utils.add_symbol(self.buffer, "consReal", self.line, code="C04")
+            print("REAL")
         print(f"Lexeme size: {self.counter}")
+        print(f"Line: {self.line}")
 
         print("-" * 50)
 
@@ -73,7 +83,6 @@ class LexicalAnalyzer:
 
     def process_var(self, char):
         if self.utils.is_letter(char):
-            # print("Is Letter")
             self.buffer += char
             self.counter += 1
         else:
@@ -81,7 +90,11 @@ class LexicalAnalyzer:
 
     def process_number(self, char):
         if self.utils.is_number(char):
-            # print("Is Letter")
+            self.buffer += char
+            self.counter += 1
+        # Check if is number mode, and do not have any . in the number
+        elif char == "." and self.mode == "NUMBER":
+            self.mode = "REAL"
             self.buffer += char
             self.counter += 1
         else:
