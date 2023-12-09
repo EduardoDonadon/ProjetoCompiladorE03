@@ -16,3 +16,8 @@ var var var
 ""
 varempty
 "my chain123*_$."
+
+''
+emptychar
+
+'MyChar'

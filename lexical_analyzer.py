@@ -4,12 +4,13 @@ import io
 class LexicalAnalyzer:
     buffer = ""
     # Modes
-    # LETTER | NUMBER | REAL | LINE_COMMENT | BLOCK_COMMENT | CHAIN
+    # LETTER | NUMBER | REAL | LINE_COMMENT | BLOCK_COMMENT | CHAIN | CHAR
     mode = None
     counter = 0
     line = 1
-    chain_started = False
     skip_next = False
+    chain_started = False
+    char_started = False
 
     def __init__(self, file_management, utils):
         self.file_management = file_management
@@ -40,8 +41,9 @@ class LexicalAnalyzer:
                             elif self.utils.is_number(char):
                                 self.mode = "NUMBER"
                             elif char == '"':
-                                print("### CHAIN MODE ON")
                                 self.mode = "CHAIN"
+                            elif char == "'":
+                                self.mode = "CHAR"
 
                         if self.mode == "LETTER":
                             self.process_var(char)
@@ -53,6 +55,8 @@ class LexicalAnalyzer:
                             self.process_block_comment(char, next_char)
                         elif self.mode == "CHAIN":
                             self.process_chain(char, next_char)
+                        elif self.mode == "CHAR":
+                            self.process_char(char, next_char)
                     else:
                         print(f"Char {char} is invalid")
                     if char == "\n":
@@ -88,6 +92,10 @@ class LexicalAnalyzer:
 
         if self.mode == "CHAIN":
             self.utils.add_symbol(self.buffer, "consCadeia", self.line, code="C01")
+            print("CHAIN")
+
+        if self.mode == "CHAR":
+            self.utils.add_symbol(self.buffer, "consCaracter", self.line, code="C02")
             print("CHAIN")
 
         print(f"Lexeme size: {self.counter}")
@@ -156,3 +164,33 @@ class LexicalAnalyzer:
         # if yes, should work as delimiter
         elif self.utils.is_valid_char(char):
             print(f"Invalid char for chain: {char}")
+
+    def process_char(self, char, next_char):
+        # Empry char
+        if char == "'" and next_char == "'":
+            self.skip_next = True
+            self.reset_status()
+            print("-" * 50)
+
+        # char start
+        elif char == "'" and self.char_started == False:
+            self.char_started = True
+            self.buffer += char
+            self.counter += 1
+
+        # char end
+        elif char == "'" and self.char_started == True:
+            self.char_started = False
+            self.buffer += char
+            self.counter += 1
+            self.check_delimiter()
+
+        # Check if char is a valid char char
+        elif self.utils.is_letter(char):
+            self.buffer += char
+            self.counter += 1
+
+        # Check if the char is a valid char for the language
+        # if yes, should work as delimiter
+        elif self.utils.is_valid_char(char):
+            print(f"Invalid char for char: {char}")

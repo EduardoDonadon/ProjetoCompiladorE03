@@ -76,7 +76,7 @@ class Utils:
         return re.match(r"\d", char) is not None
 
     def is_valid_char(self, char):
-        allowed_symbols = r"%(),.:;?[]{}-*/+!=#<>$\"_"
+        allowed_symbols = r"%(),.:;?[]{}-*/+!=#<>$\"_\'"
         pattern = f"[^a-zA-Z0-9\\s{re.escape(allowed_symbols)}]"
         return not bool(re.search(pattern, char))
         # filtered_string = re.sub(pattern, "", char)
