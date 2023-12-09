@@ -39,3 +39,9 @@ class FileManagement:
         finally:
             if file:
                 file.close()
+
+    def map_to_file(self, input_map, output_file):
+        with open(output_file, "w") as file:
+            for _, value in input_map.items():
+                line = f"{value}"
+                file.write(line + "\n")

@@ -43,7 +43,7 @@ class Utils:
     def add_symbol(self, lexeme, type, line, code=None):
         should_update = lexeme in self.symbol_table
         print(f"should_update {should_update}")
-        index = 0
+        index = len(self.symbol_table) + 1
         symbol_code = self.get_lexeme_code(lexeme) if not code else code
 
         symbol = {
@@ -59,6 +59,7 @@ class Utils:
             symbol["lines"] = (
                 f"{old_lines} {line}" if number_of_lines < 5 else old_lines
             )
+            symbol["index"] = self.symbol_table[lexeme]["index"]
 
         self.symbol_table[lexeme] = symbol
 

@@ -18,7 +18,8 @@ class SyntacticAnalyzer:
 
         self.lexical_analyzer.analyse(path)
 
-        print(self.utils.get_symbol_table())
+        symbol_table = self.utils.get_symbol_table()
+        self.file_management.map_to_file(symbol_table, path.replace(".232", ".TAB"))
 
 
 syntactic_analyzer = SyntacticAnalyzer()
