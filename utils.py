@@ -42,7 +42,6 @@ class Utils:
 
     def add_symbol(self, lexeme, type, line, code=None):
         should_update = lexeme in self.symbol_table
-        print(f"should_update {should_update}")
         index = len(self.symbol_table) + 1
         symbol_code = self.get_lexeme_code(lexeme) if not code else code
 
@@ -77,11 +76,25 @@ class Utils:
         return re.match(r"\d", char) is not None
 
     def is_valid_char(self, char):
-        allowed_symbols = r"%(),.:;?[]{}-*/+!=#<>"
+        allowed_symbols = r"%(),.:;?[]{}-*/+!=#<>$\"_"
         pattern = f"[^a-zA-Z0-9\\s{re.escape(allowed_symbols)}]"
         return not bool(re.search(pattern, char))
         # filtered_string = re.sub(pattern, "", char)
         # return filtered_string
+
+    def is_valid_chain_char(self, char):
+        return (
+            True
+            if (
+                self.is_letter(char)
+                or self.is_number(char)
+                or char == " "
+                or char == "$"
+                or char == "_"
+                or char == "."
+            )
+            else False
+        )
 
     def is_line_comment_start(self, char, next_char):
         return True if char == "/" and next_char == "/" else False
