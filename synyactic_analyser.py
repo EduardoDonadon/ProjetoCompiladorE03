@@ -15,11 +15,13 @@ class SyntacticAnalyzer:
         self.tui.show_greetings()
         # path = self.tui.get_user_file_path()
         path = "test.232"
-
         self.lexical_analyzer.analyse(path)
 
         symbol_table = self.utils.get_symbol_table()
         self.file_management.map_to_file(symbol_table, path.replace(".232", ".TAB"))
+
+        lexical_table = self.utils.get_lex_table()
+        self.file_management.text_to_file(lexical_table, path.replace(".232", ".LEX"))
 
 
 syntactic_analyzer = SyntacticAnalyzer()

@@ -73,34 +73,58 @@ class LexicalAnalyzer:
     def check_delimiter(self):
         # Check if is a delimiter or is a not allowed char for this structure
         print(f"Buffer: {self.buffer}")
+        self.utils.add_text_lex_table(f"Lexeme: {self.buffer},")
 
         if self.mode == "LETTER":
             # if is a delimiter, check if is a reserved word
             if self.is_reserved_word(self.buffer):
+                self.utils.add_text_lex_table("RESERVADO,")
                 print("RESERVADO")
             else:
                 self.utils.add_symbol(self.buffer, "variavel", self.line, code="C07")
+                self.utils.add_text_lex_table("Codigo: C07,")
+                self.utils.add_text_lex_table(
+                    f"ÍndiceTabSimb: {self.utils.get_lex_index(self.buffer)},"
+                )
                 print("VARIABLE")
 
         if self.mode == "NUMBER":
             print("Number")
             self.utils.add_symbol(self.buffer, "consInteiro", self.line, code="C03")
+            self.utils.add_text_lex_table("Codigo: C03,")
+            self.utils.add_text_lex_table(
+                f"ÍndiceTabSimb: {self.utils.get_lex_index(self.buffer)},"
+            )
 
         if self.mode == "REAL":
             self.utils.add_symbol(self.buffer, "consReal", self.line, code="C04")
+            self.utils.add_text_lex_table("Codigo: C04,")
+            self.utils.add_text_lex_table(
+                f"ÍndiceTabSimb: {self.utils.get_lex_index(self.buffer)},"
+            )
             print("REAL")
 
         if self.mode == "CHAIN":
             self.utils.add_symbol(self.buffer, "consCadeia", self.line, code="C01")
+            self.utils.add_text_lex_table("Codigo: C01,")
+            self.utils.add_text_lex_table(
+                f"ÍndiceTabSimb: {self.utils.get_lex_index(self.buffer)},"
+            )
             print("CHAIN")
 
         if self.mode == "CHAR":
             self.utils.add_symbol(self.buffer, "consCaracter", self.line, code="C02")
-            print("CHAIN")
+            self.utils.add_text_lex_table("Codigo: C02,")
+            self.utils.add_text_lex_table(
+                f"ÍndiceTabSimb: {self.utils.get_lex_index(self.buffer)},"
+            )
+            print("CHAR")
 
         print(f"Lexeme size: {self.counter}")
+        self.utils.add_text_lex_table(f"Linha: {self.line}")
         print(f"Line: {self.line}")
-
+        self.utils.add_line("")
+        self.utils.add_line("-" * 100)
         print("-" * 50)
 
         # Reset the internal control variables
