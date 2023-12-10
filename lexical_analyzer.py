@@ -12,6 +12,8 @@ class LexicalAnalyzer:
     chain_started = False
     char_started = False
     already_added = False
+    safe_buffer = ""
+    expo = None
 
     def __init__(self, file_management, utils):
         self.file_management = file_management
@@ -84,13 +86,13 @@ class LexicalAnalyzer:
                             not self.mode == "LINE_COMMENT"
                             and not self.mode == "BLOCK_COMMENT"
                             and not self.already_added
+                            and not self.expo == 0
+                            and not self.buffer.endswith(".")
                         ):
                             self.utils.add_lex_table(
                                 self.buffer if self.buffer else char, self.line
                             )
                         self.already_added = False
-                    else:
-                        print(f"Char {char} is invalid")
                     if char == "\n":
                         self.line += 1
 
@@ -126,12 +128,25 @@ class LexicalAnalyzer:
         if self.utils.is_number(char):
             self.buffer += char
             self.counter += 1
+            self.expo = None
         # Check if is number mode, and do not have any . in the number
         elif char == "." and self.utils.is_number(next_char) and self.mode == "NUMBER":
             self.mode = "REAL"
             self.buffer += char
             self.counter += 1
+        elif self.mode == "REAL" and char == "E":
+            self.safe_buffer = self.buffer
+            self.expo = 0
+            self.buffer += char
+            self.counter += 1
+        elif self.expo == 0 and (char == "+" or char == "-"):
+            self.buffer += char
+            self.counter += 1
+            self.expo = None
         else:
+            if self.expo == 0:
+                self.buffer = self.safe_buffer
+                self.counter -= 1
             self.check_delimiter()
             self.process_current_char(char, next_char)
 
