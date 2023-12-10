@@ -33,6 +33,38 @@ class Utils:
             "A24": "TIPOVAR",
             "A25": "TRUE",
             "A26": "VAZIO",
+            # --------------
+            "B01": "%",
+            "B02": "(",
+            "B03": ")",
+            "B04": ",",
+            "B05": ":",
+            "B06": ":=",
+            "B07": ";",
+            "B08": "?",
+            "B09": "[",
+            "B10": "]",
+            "B11": "{",
+            "B12": "}",
+            "B13": "-",
+            "B14": "*",
+            "B15": "/",
+            "B16": "+",
+            "B17": "!=",
+            "B17.2": "#",
+            "B18": "<",
+            "B19": "<=",
+            "B20": "==",
+            "B21": ">",
+            "B22": ">=",
+            # --------------
+            "C01": "consCadeia",
+            "C02": "consCaracter",
+            "C03": "consInteiro",
+            "C04": "consReal",
+            "C05": "nomFuncao",
+            "C06": "nomPrograma",
+            "C07": "variavel",
         }
 
     def get_symbol_table(self):
@@ -90,11 +122,13 @@ class Utils:
         return re.match(r"\d", char) is not None
 
     def is_valid_char(self, char):
-        allowed_symbols = r"%(),.:;?[]{}-*/+!=#<>$\"_\'"
-        pattern = f"[^a-zA-Z0-9\\s{re.escape(allowed_symbols)}]"
-        return not bool(re.search(pattern, char))
-        # filtered_string = re.sub(pattern, "", char)
-        # return filtered_string
+        allowed_symbols = r"_$.\"\'"
+        pattern = f"[a-zA-Z0-9\\s{re.escape(allowed_symbols)}]"
+        is_valid = bool(re.search(pattern, char))
+        return (
+            any(char == value for value in self.get_reserved_table().values())
+            or is_valid
+        )
 
     def is_valid_chain_char(self, char):
         return (
