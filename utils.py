@@ -2,8 +2,9 @@ import re
 
 
 class Utils:
-    symbol_table = {}
-    lex_table = []
+    def __init__(self, symbol_table, lex_table):
+        self.symbol_table = symbol_table
+        self.symbol_table = lex_table
 
     def get_reserved_table(self):
         return {

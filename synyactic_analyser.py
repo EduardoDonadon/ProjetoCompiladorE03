@@ -5,9 +5,12 @@ from utils import Utils
 
 
 class SyntacticAnalyzer:
+    symbol_table = {}
+    lex_table = []
+
     def __init__(self):
         self.file_management = FileManagement()
-        self.utils = Utils()
+        self.utils = Utils(self.symbol_table, self.lex_table)
         self.lexical_analyzer = LexicalAnalyzer(self.file_management, self.utils)
         self.tui = TUI(self.file_management)
 
