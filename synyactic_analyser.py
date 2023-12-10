@@ -20,6 +20,7 @@ class SyntacticAnalyzer:
         symbol_table = self.utils.get_symbol_table()
         self.file_management.map_to_file(symbol_table, path.replace(".232", ".TAB"))
 
+        self.utils.update_lex_codes()
         lexical_table = self.utils.get_lex_table()
         self.file_management.text_to_file(lexical_table, path.replace(".232", ".LEX"))
 

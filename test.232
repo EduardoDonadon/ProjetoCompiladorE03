@@ -1,12 +1,12 @@
 Test file
-declaracoes 
-Second line 
-third l@ine 
+declaracoes
+Second line
+third l@ine
 /* block comment */
 
-var 10 = 1230 
+var 10 = 1230
 // line comment
-programa test declaracoes 
+programa test declaracoes
 /* block comment */
 
 var var1 := 20.
@@ -18,7 +18,7 @@ varempty
 "my chain12(3*_$."
 space
 "my c(hain"
-
+ 
 ''
 emptychar
 
@@ -35,3 +35,7 @@ nsei
 
 20.5e+3
 Test filee 
+
+false
+true
+se senao enquanto seila pausa

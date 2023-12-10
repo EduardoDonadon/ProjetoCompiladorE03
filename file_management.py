@@ -49,7 +49,7 @@ Componentes:
             if file:
                 file.close()
 
-    def format_data(self, data):
+    def format_tab_data(self, data):
         formatted_string = (
             f"Index: {data['index']}, "
             f"Codigo: {data['code']}, "
@@ -70,10 +70,19 @@ Componentes:
             file.write("-" * 100)
             file.write("\n")
             for _, value in input_map.items():
-                line = self.format_data(value)
+                line = self.format_tab_data(value)
                 file.write(line + "\n")
 
-    def text_to_file(self, text, output_file):
+    def format_lex_data(self, data):
+        formatted_string = (
+            f"Lexeme: {data['Lexeme']}, "
+            f"Codigo: {data['Codigo']}, "
+            f"IndiceTabSimb: {data['IndiceTabSimb']}, "
+            f"Linha: {data['Linha']}"
+        )
+        return formatted_string
+
+    def text_to_file(self, input_array, output_file):
         with open(output_file, "w") as file:
             file.write(self.get_file_header() + "\n")
             file.write(
@@ -81,4 +90,6 @@ Componentes:
             )
             file.write("-" * 100)
             file.write("\n")
-            file.write(text)
+            for value in input_array:
+                file.write(self.format_lex_data(value))
+                file.write("\n")

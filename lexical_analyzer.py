@@ -58,6 +58,14 @@ class LexicalAnalyzer:
                     if self.utils.is_valid_char(char):
                         next_char = self.utils.get_next_char(string_file, index)
                         self.process_current_char(char, next_char)
+
+                        if (
+                            not self.mode == "LINE_COMMENT"
+                            and not self.mode == "BLOCK_COMMENT"
+                        ):
+                            self.utils.add_lex_table(
+                                self.buffer if self.buffer else char, self.line
+                            )
                     else:
                         print(f"Char {char} is invalid")
                     if char == "\n":
@@ -72,61 +80,13 @@ class LexicalAnalyzer:
         return any(buffer == value for value in self.reserved_words.values())
 
     def check_delimiter(self):
-        # Check if is a delimiter or is a not allowed char for this structure
-        print(f"Buffer: {self.buffer}")
-        self.utils.add_text_lex_table(f"Lexeme: {self.buffer[:30]},")
+        # print(self.buffer)
+        if not self.is_reserved_word(self.buffer):
+            self.utils.add_symbol(self.buffer, self.line)
 
-        if self.mode == "LETTER":
-            # if is a delimiter, check if is a reserved word
-            if self.is_reserved_word(self.buffer):
-                self.utils.add_text_lex_table("RESERVADO,")
-                print("RESERVADO")
-            else:
-                self.utils.add_symbol(self.buffer, "variavel", self.line, code="C07")
-                self.utils.add_text_lex_table("Codigo: C07,")
-                self.utils.add_text_lex_table(
-                    f"ÍndiceTabSimb: {self.utils.get_lex_index(self.buffer)},"
-                )
-                print("VARIABLE")
-
-        if self.mode == "NUMBER":
-            print("Number")
-            self.utils.add_symbol(self.buffer, "consInteiro", self.line, code="C03")
-            self.utils.add_text_lex_table("Codigo: C03,")
-            self.utils.add_text_lex_table(
-                f"ÍndiceTabSimb: {self.utils.get_lex_index(self.buffer)},"
-            )
-
-        if self.mode == "REAL":
-            self.utils.add_symbol(self.buffer, "consReal", self.line, code="C04")
-            self.utils.add_text_lex_table("Codigo: C04,")
-            self.utils.add_text_lex_table(
-                f"ÍndiceTabSimb: {self.utils.get_lex_index(self.buffer)},"
-            )
-            print("REAL")
-
-        if self.mode == "CHAIN":
-            self.utils.add_symbol(self.buffer, "consCadeia", self.line, code="C01")
-            self.utils.add_text_lex_table("Codigo: C01,")
-            self.utils.add_text_lex_table(
-                f"ÍndiceTabSimb: {self.utils.get_lex_index(self.buffer)},"
-            )
-            print("CHAIN")
-
-        if self.mode == "CHAR":
-            self.utils.add_symbol(self.buffer, "consCaracter", self.line, code="C02")
-            self.utils.add_text_lex_table("Codigo: C02,")
-            self.utils.add_text_lex_table(
-                f"ÍndiceTabSimb: {self.utils.get_lex_index(self.buffer)},"
-            )
-            print("CHAR")
-
-        print(f"Lexeme size: {self.counter}")
-        self.utils.add_text_lex_table(f"Linha: {self.line}")
-        print(f"Line: {self.line}")
-        self.utils.add_line("")
-        self.utils.add_line("-" * 100)
-        print("-" * 50)
+        # print(f"Lexeme size: {self.counter}")
+        # print(f"Line: {self.line}")
+        # print("-" * 50)
 
         # Reset the internal control variables
         self.reset_status()
@@ -165,16 +125,16 @@ class LexicalAnalyzer:
         if char == '"' and next_char == '"':
             self.skip_next = True
             self.reset_status()
-            print("-" * 50)
+            # print("-" * 50)
 
         # Chain start
-        elif char == '"' and self.chain_started == False:
+        elif char == '"' and self.chain_started is False:
             self.chain_started = True
             self.buffer += char
             self.counter += 1
 
         # Chain end
-        elif char == '"' and self.chain_started == True:
+        elif char == '"' and self.chain_started is True:
             self.chain_started = False
             self.buffer += char
             self.counter += 1
@@ -188,7 +148,7 @@ class LexicalAnalyzer:
         # Check if the char is a valid char for the language
         # if yes, should work as delimiter
         else:
-            print(f"Invalid char for chain: {char}")
+            # print(f"Invalid char for chain: {char}")
             self.chain_started = False
             self.reset_status()
             self.process_current_char(char, next_char)
@@ -198,16 +158,16 @@ class LexicalAnalyzer:
         if char == "'" and next_char == "'":
             self.skip_next = True
             self.reset_status()
-            print("-" * 50)
+            # print("-" * 50)
 
         # char start
-        elif char == "'" and self.char_started == False:
+        elif char == "'" and self.char_started is False:
             self.char_started = True
             self.buffer += char
             self.counter += 1
 
         # char end
-        elif char == "'" and self.char_started == True:
+        elif char == "'" and self.char_started is True:
             self.char_started = False
             self.buffer += char
             self.counter += 1
@@ -221,7 +181,7 @@ class LexicalAnalyzer:
         # Check if the char is a valid char for the language
         # if yes, should work as delimiter
         else:
-            print(f"Invalid char for char: {char}")
+            # print(f"Invalid char for char: {char}")
             self.char_started = False
             self.reset_status()
             self.process_current_char(char, next_char)

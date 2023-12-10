@@ -3,7 +3,7 @@ import re
 
 class Utils:
     symbol_table = {}
-    lex_table = ""
+    lex_table = []
 
     def get_reserved_table(self):
         return {
@@ -67,11 +67,34 @@ class Utils:
             "C07": "variavel",
         }
 
+    def get_lex_code(self, lexeme):
+        table = self.get_reserved_table()
+        if any(lexeme == value for value in table.values()):
+            for key, value in table.items():
+                if value == lexeme:
+                    return key
+        return "A02"
+
+    def add_lex_table(self, lexeme, line):
+        code = self.get_lex_code(lexeme)
+
+        if len(lexeme) > 0 and not lexeme == "\n":
+            self.lex_table.append(
+                {
+                    "Lexeme": lexeme,
+                    "Codigo": code,
+                    "IndiceTabSimb": None,
+                    "Linha": line,
+                }
+            )
+
+    def update_lex_codes(self):
+        for item in self.lex_table:
+            index_tab_simb = self.get_lex_index(item.get("Lexeme"))
+            item["IndiceTabSimb"] = index_tab_simb
+
     def get_symbol_table(self):
         return self.symbol_table
-
-    def get_lexeme_code(self, lexeme):
-        return "C02"
 
     def get_lex_table(self):
         return self.lex_table
@@ -80,19 +103,39 @@ class Utils:
         symbol = self.symbol_table.get(lexeme)
         return symbol["index"] if symbol else ""
 
-    def add_line(self, text):
-        self.lex_table += text + "\n"
-
-    def add_text_lex_table(self, text):
-        self.lex_table += f"{text} "
+    def get_lexeme_code(self, lexeme):
+        if lexeme.startswith('"'):
+            return "C01"
+        if lexeme.startswith("'"):
+            return "C02"
+        if self.is_number(lexeme) and "." not in lexeme:
+            return "C03"
+        if self.is_number(lexeme) and "." in lexeme:
+            return "C04"
+        return "C07"
 
     def truncate(self, lexeme):
         return lexeme[:30]
 
-    def add_symbol(self, lexeme, type, line, code=None):
+    def get_lex_type(self, lexeme):
+        if lexeme == "TRUE" or lexeme == "FALSE":
+            return "BOO"
+        elif lexeme.startswith("'") or lexeme.startswith('"'):
+            return "CHC"
+        elif self.is_letter(lexeme):
+            return "STR"
+        elif self.is_number(lexeme) and "." in lexeme:
+            return "PFO"
+        elif self.is_number(lexeme) and "." not in lexeme:
+            return "INT"
+        else:
+            return "VOI"
+
+    def add_symbol(self, lexeme, line):
         should_update = lexeme in self.symbol_table
         index = len(self.symbol_table) + 1
-        symbol_code = self.get_lexeme_code(lexeme) if not code else code
+        symbol_code = self.get_lexeme_code(lexeme)
+        type = self.get_lex_type(lexeme)
 
         lenBeforeTrunc = len(lexeme)
         lenAfterTrunc = None
