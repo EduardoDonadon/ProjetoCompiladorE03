@@ -16,8 +16,7 @@ class SyntacticAnalyzer:
 
     def start(self):
         self.tui.show_greetings()
-        # path = self.tui.get_user_file_path()
-        path = "test.232"
+        path = self.tui.get_user_file_path()
         self.lexical_analyzer.analyse(path)
 
         symbol_table = self.utils.get_symbol_table()

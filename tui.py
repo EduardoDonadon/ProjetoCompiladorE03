@@ -12,6 +12,9 @@ class TUI:
     def get_user_file_path(self):
         path = input("Digite o caminho para o arquivo: ")
 
+        if not path.endswith(".232"):
+            path += ".232"
+
         return (
             path
             if self.file_management.check_file_exists(path)
