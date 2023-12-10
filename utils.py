@@ -3,6 +3,13 @@ import re
 
 class Utils:
     symbol_table = {}
+    lex_table = """
+Código da Equipe: E03
+Componentes:
+    \tEduardo Donadon; eduardodonadon.silva@ucsal.edu.br; (71) 99175-7234
+    \tLuis Felipe; luisfelipe.santos@ucsal.edu.br; (71) 98669-2228
+    \tMatheus Medeiros; matheus.medeiros@ucsal.edu.br; (71) 98821-8445\n
+"""
 
     def get_reserved_table(self):
         return {
@@ -39,6 +46,19 @@ class Utils:
 
     def get_lexeme_code(self, lexeme):
         return "C02"
+
+    def get_lex_table(self):
+        return self.lex_table
+
+    def get_lex_index(self, lexeme):
+        symbol = self.symbol_table[lexeme]
+        return symbol["index"] if symbol else ""
+
+    def add_line(self, text):
+        self.lex_table += text + "\n"
+
+    def add_text_lex_table(self, text):
+        self.lex_table += f"{text} "
 
     def add_symbol(self, lexeme, type, line, code=None):
         should_update = lexeme in self.symbol_table
@@ -93,6 +113,13 @@ class Utils:
                 or char == "_"
                 or char == "."
             )
+            else False
+        )
+
+    def is_valid_exponential_char(self, char):
+        return (
+            True
+            if (self.is_number(char) or char == "-" or char == "+" or char == "e")
             else False
         )
 

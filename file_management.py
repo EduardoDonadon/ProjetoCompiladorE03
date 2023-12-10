@@ -45,3 +45,7 @@ class FileManagement:
             for _, value in input_map.items():
                 line = f"{value}"
                 file.write(line + "\n")
+
+    def text_to_file(self, text, output_file):
+        with open(output_file, "w") as file:
+            file.write(text)
