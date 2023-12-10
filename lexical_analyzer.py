@@ -74,7 +74,7 @@ class LexicalAnalyzer:
     def check_delimiter(self):
         # Check if is a delimiter or is a not allowed char for this structure
         print(f"Buffer: {self.buffer}")
-        self.utils.add_text_lex_table(f"Lexeme: {self.buffer},")
+        self.utils.add_text_lex_table(f"Lexeme: {self.buffer[:30]},")
 
         if self.mode == "LETTER":
             # if is a delimiter, check if is a reserved word
