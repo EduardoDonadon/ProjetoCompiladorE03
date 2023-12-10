@@ -79,7 +79,19 @@ class Utils:
     def add_lex_table(self, lexeme, line):
         code = self.get_lex_code(lexeme)
 
-        if len(lexeme) > 0 and not lexeme == "\n":
+        pattern = "\\s"
+        should_add = bool(re.search(pattern, lexeme))
+        if (
+            len(lexeme) > 0
+            and not lexeme == "\n"
+            and not should_add
+            and not lexeme == "*"
+            and not lexeme == "/"
+            and not lexeme == "="
+            and not lexeme == "'"
+            and not lexeme == '"'
+            and not lexeme == "_"
+        ):
             self.lex_table.append(
                 {
                     "Lexeme": lexeme,
