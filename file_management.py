@@ -52,9 +52,11 @@ Componentes:
     def format_data(self, data):
         formatted_string = (
             f"Index: {data['index']}, "
-            f"Code: {data['code']}, "
+            f"Codigo: {data['code']}, "
             f"Lexeme: {data['lexeme']}, "
-            f"Type: {data['type']}, "
+            f"Tipo: {data['type']}, "
+            f"QTD Antes Truncagem: {data['lenBeforeTrunc']}, "
+            f"QTD Depis Truncagem: {data['lenAfterTrunc']}, "
             f"Linhas: {data['lines']}"
         )
         return formatted_string
@@ -70,8 +72,6 @@ Componentes:
             for _, value in input_map.items():
                 line = self.format_data(value)
                 file.write(line + "\n")
-                file.write("-" * 100)
-                file.write("\n")
 
     def text_to_file(self, text, output_file):
         with open(output_file, "w") as file:
