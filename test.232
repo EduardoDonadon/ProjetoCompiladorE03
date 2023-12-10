@@ -9,8 +9,8 @@ var 10 = 1230
 programa test declaracoes 
 /* block comment */
 
-var var1 = 20.13
-var var var var
+var var1 = 20.
+var6 var var var
 var var var
  
 ""
@@ -30,4 +30,8 @@ abcdefghijklmnopqrstuvwxyz12345678
 123 abc
 abc
 test
-Test file
+nsei
+10.2
+
+20.5e+3
+Test filee 

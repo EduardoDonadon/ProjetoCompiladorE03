@@ -144,7 +144,7 @@ class LexicalAnalyzer:
             self.buffer += char
             self.counter += 1
         # Check if is number mode, and do not have any . in the number
-        elif char == "." and self.mode == "NUMBER":
+        elif char == "." and self.utils.is_number(next_char) and self.mode == "NUMBER":
             self.mode = "REAL"
             self.buffer += char
             self.counter += 1
