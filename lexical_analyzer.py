@@ -17,6 +17,34 @@ class LexicalAnalyzer:
         self.utils = utils
         self.reserved_words = self.utils.get_reserved_table()
 
+    def process_current_char(self, char, next_char):
+        if not self.mode:
+            if self.utils.is_line_comment_start(char, next_char):
+                self.mode = "LINE_COMMENT"
+            elif self.utils.is_block_comment_start(char, next_char):
+                self.mode = "BLOCK_COMMENT"
+            elif self.utils.is_letter(char):
+                self.mode = "LETTER"
+            elif self.utils.is_number(char):
+                self.mode = "NUMBER"
+            elif char == '"':
+                self.mode = "CHAIN"
+            elif char == "'":
+                self.mode = "CHAR"
+
+        if self.mode == "LETTER":
+            self.process_var(char, next_char)
+        elif self.mode == "NUMBER" or self.mode == "REAL":
+            self.process_number(char, next_char)
+        elif self.mode == "LINE_COMMENT":
+            self.process_line_comment(char, next_char)
+        elif self.mode == "BLOCK_COMMENT":
+            self.process_block_comment(char, next_char)
+        elif self.mode == "CHAIN":
+            self.process_chain(char, next_char)
+        elif self.mode == "CHAR":
+            self.process_char(char, next_char)
+
     def analyse(self, path):
         with self.file_management.open_file(path) as file:
             uppercase_file = file.read().upper()
@@ -26,37 +54,10 @@ class LexicalAnalyzer:
                 if self.skip_next:
                     self.skip_next = False
                 else:
-                    next_char = self.utils.get_next_char(string_file, index)
                     # Filter level 1
                     if self.utils.is_valid_char(char):
-                        if not self.mode:
-                            if self.utils.is_line_comment_start(char, next_char):
-                                print("Begin line comment")
-                                self.mode = "LINE_COMMENT"
-                            elif self.utils.is_block_comment_start(char, next_char):
-                                print("Begin block comment")
-                                self.mode = "BLOCK_COMMENT"
-                            elif self.utils.is_letter(char):
-                                self.mode = "LETTER"
-                            elif self.utils.is_number(char):
-                                self.mode = "NUMBER"
-                            elif char == '"':
-                                self.mode = "CHAIN"
-                            elif char == "'":
-                                self.mode = "CHAR"
-
-                        if self.mode == "LETTER":
-                            self.process_var(char)
-                        elif self.mode == "NUMBER" or self.mode == "REAL":
-                            self.process_number(char)
-                        elif self.mode == "LINE_COMMENT":
-                            self.process_line_comment(char, next_char)
-                        elif self.mode == "BLOCK_COMMENT":
-                            self.process_block_comment(char, next_char)
-                        elif self.mode == "CHAIN":
-                            self.process_chain(char, next_char)
-                        elif self.mode == "CHAR":
-                            self.process_char(char, next_char)
+                        next_char = self.utils.get_next_char(string_file, index)
+                        self.process_current_char(char, next_char)
                     else:
                         print(f"Char {char} is invalid")
                     if char == "\n":
@@ -130,14 +131,15 @@ class LexicalAnalyzer:
         # Reset the internal control variables
         self.reset_status()
 
-    def process_var(self, char):
-        if self.utils.is_letter(char):
+    def process_var(self, char, next_char):
+        if self.utils.is_letter(char) or self.utils.is_number(char):
             self.buffer += char
             self.counter += 1
         else:
             self.check_delimiter()
+            self.process_current_char(char, next_char)
 
-    def process_number(self, char):
+    def process_number(self, char, next_char):
         if self.utils.is_number(char):
             self.buffer += char
             self.counter += 1
@@ -148,15 +150,14 @@ class LexicalAnalyzer:
             self.counter += 1
         else:
             self.check_delimiter()
+            self.process_current_char(char, next_char)
 
     def process_line_comment(self, char, next_char):
         if self.utils.is_line_comment_end(char):
-            print("line comment end")
             self.reset_status()
 
     def process_block_comment(self, char, next_char):
         if self.utils.is_block_comment_end(char, next_char):
-            print("block comment end")
             self.reset_status()
 
     def process_chain(self, char, next_char):
@@ -186,8 +187,11 @@ class LexicalAnalyzer:
 
         # Check if the char is a valid char for the language
         # if yes, should work as delimiter
-        elif self.utils.is_valid_char(char):
+        else:
             print(f"Invalid char for chain: {char}")
+            self.chain_started = False
+            self.reset_status()
+            self.process_current_char(char, next_char)
 
     def process_char(self, char, next_char):
         # Empry char
@@ -216,5 +220,8 @@ class LexicalAnalyzer:
 
         # Check if the char is a valid char for the language
         # if yes, should work as delimiter
-        elif self.utils.is_valid_char(char):
+        else:
             print(f"Invalid char for char: {char}")
+            self.char_started = False
+            self.reset_status()
+            self.process_current_char(char, next_char)

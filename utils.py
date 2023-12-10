@@ -77,7 +77,7 @@ class Utils:
         return self.lex_table
 
     def get_lex_index(self, lexeme):
-        symbol = self.symbol_table[lexeme]
+        symbol = self.symbol_table.get(lexeme)
         return symbol["index"] if symbol else ""
 
     def add_line(self, text):
@@ -86,16 +86,27 @@ class Utils:
     def add_text_lex_table(self, text):
         self.lex_table += f"{text} "
 
+    def truncate(self, lexeme):
+        return lexeme[:30]
+
     def add_symbol(self, lexeme, type, line, code=None):
         should_update = lexeme in self.symbol_table
         index = len(self.symbol_table) + 1
         symbol_code = self.get_lexeme_code(lexeme) if not code else code
+
+        lenBeforeTrunc = len(lexeme)
+        lenAfterTrunc = None
+        if lenBeforeTrunc > 30:
+            lexeme = self.truncate(lexeme)
+            lenAfterTrunc = len(lexeme)
 
         symbol = {
             "index": index,
             "code": symbol_code,
             "lexeme": lexeme,
             "type": type,
+            "lenBeforeTrunc": lenBeforeTrunc,
+            "lenAfterTrunc": lenAfterTrunc,
             "lines": f"{line}",
         }
         if should_update:

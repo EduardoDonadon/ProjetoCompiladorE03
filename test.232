@@ -15,9 +15,19 @@ var var var
  
 ""
 varempty
-"my chain123*_$."
+"my chain12(3*_$."
+space
+"my c(hain"
 
 ''
 emptychar
 
 'MyChar'
+
+abcdefghijklmnopqrstuvwxyz12345678
+'wrron1Char'
+
+123 abc
+abc
+test
+Test file
