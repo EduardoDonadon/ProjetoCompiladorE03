@@ -133,7 +133,7 @@ class Utils:
         return re.match(r"\d", char) is not None
 
     def is_valid_char(self, char):
-        allowed_symbols = r"_$.\"\'"
+        allowed_symbols = r"_$.=\"\'"
         pattern = f"[a-zA-Z0-9\\s{re.escape(allowed_symbols)}]"
         is_valid = bool(re.search(pattern, char))
         return (

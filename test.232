@@ -9,7 +9,7 @@ var 10 = 1230
 programa test declaracoes 
 /* block comment */
 
-var var1 = 20.
+var var1 := 20.
 var6 var var var
 var var var
  
