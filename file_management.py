@@ -49,6 +49,16 @@ Componentes:
             if file:
                 file.close()
 
+    def format_data(self, data):
+        formatted_string = (
+            f"Index: {data['index']}, "
+            f"Code: {data['code']}, "
+            f"Lexeme: {data['lexeme']}, "
+            f"Type: {data['type']}, "
+            f"Linhas: {data['lines']}"
+        )
+        return formatted_string
+
     def map_to_file(self, input_map, output_file):
         with open(output_file, "w") as file:
             file.write(self.get_file_header() + "\n")
@@ -58,8 +68,10 @@ Componentes:
             file.write("-" * 100)
             file.write("\n")
             for _, value in input_map.items():
-                line = f"{value}"
+                line = self.format_data(value)
                 file.write(line + "\n")
+                file.write("-" * 100)
+                file.write("\n")
 
     def text_to_file(self, text, output_file):
         with open(output_file, "w") as file:
