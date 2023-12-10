@@ -4,7 +4,7 @@ import re
 class Utils:
     def __init__(self, symbol_table, lex_table):
         self.symbol_table = symbol_table
-        self.symbol_table = lex_table
+        self.lex_table = lex_table
 
     def get_reserved_table(self):
         return {
@@ -177,7 +177,7 @@ class Utils:
         return re.match(r"\d", char) is not None
 
     def is_valid_char(self, char):
-        allowed_symbols = r"_$.=\"\'"
+        allowed_symbols = r"!_$.=\"\'"
         pattern = f"[a-zA-Z0-9\\s{re.escape(allowed_symbols)}]"
         is_valid = bool(re.search(pattern, char))
         return (

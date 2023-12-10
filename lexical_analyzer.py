@@ -11,6 +11,7 @@ class LexicalAnalyzer:
     skip_next = False
     chain_started = False
     char_started = False
+    already_added = False
 
     def __init__(self, file_management, utils):
         self.file_management = file_management
@@ -31,6 +32,26 @@ class LexicalAnalyzer:
                 self.mode = "CHAIN"
             elif char == "'":
                 self.mode = "CHAR"
+            elif char == "=" and next_char == "=":
+                self.skip_next = True
+                self.already_added = True
+                self.utils.add_lex_table("==", self.line)
+            elif char == ">" and next_char == "=":
+                self.skip_next = True
+                self.already_added = True
+                self.utils.add_lex_table(">=", self.line)
+            elif char == "<" and next_char == "=":
+                self.skip_next = True
+                self.already_added = True
+                self.utils.add_lex_table("<=", self.line)
+            elif char == "!" and next_char == "=":
+                self.skip_next = True
+                self.already_added = True
+                self.utils.add_lex_table("!=", self.line)
+            elif char == ":" and next_char == "=":
+                self.skip_next = True
+                self.already_added = True
+                self.utils.add_lex_table(":=", self.line)
 
         if self.mode == "LETTER":
             self.process_var(char, next_char)
@@ -62,10 +83,12 @@ class LexicalAnalyzer:
                         if (
                             not self.mode == "LINE_COMMENT"
                             and not self.mode == "BLOCK_COMMENT"
+                            and not self.already_added
                         ):
                             self.utils.add_lex_table(
                                 self.buffer if self.buffer else char, self.line
                             )
+                        self.already_added = False
                     else:
                         print(f"Char {char} is invalid")
                     if char == "\n":
