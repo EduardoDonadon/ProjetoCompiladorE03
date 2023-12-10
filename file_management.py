@@ -27,6 +27,15 @@ class FileManagement:
 
         return False
 
+    def get_file_header(self):
+        return """
+Código da Equipe: E03
+Componentes:
+    \tEduardo Donadon; eduardodonadon.silva@ucsal.edu.br; (71) 99175-7234
+    \tLuis Felipe; luisfelipe.santos@ucsal.edu.br; (71) 98669-2228
+    \tMatheus Medeiros; matheus.medeiros@ucsal.edu.br; (71) 98821-8445
+"""
+
     @contextmanager
     def open_file(self, file_path, mode="r"):
         file = None
@@ -42,10 +51,22 @@ class FileManagement:
 
     def map_to_file(self, input_map, output_file):
         with open(output_file, "w") as file:
+            file.write(self.get_file_header() + "\n")
+            file.write(
+                f"RELATÓRIO DA TABELA ED SÍMBOLOS. Texto fonte analisado: {output_file}\n"
+            )
+            file.write("-" * 100)
+            file.write("\n")
             for _, value in input_map.items():
                 line = f"{value}"
                 file.write(line + "\n")
 
     def text_to_file(self, text, output_file):
         with open(output_file, "w") as file:
+            file.write(self.get_file_header() + "\n")
+            file.write(
+                f"RELATÓRIO DA ANALISE LÉXICA. Texto fonte analisado: {output_file}\n"
+            )
+            file.write("-" * 100)
+            file.write("\n")
             file.write(text)

@@ -3,13 +3,7 @@ import re
 
 class Utils:
     symbol_table = {}
-    lex_table = """
-Código da Equipe: E03
-Componentes:
-    \tEduardo Donadon; eduardodonadon.silva@ucsal.edu.br; (71) 99175-7234
-    \tLuis Felipe; luisfelipe.santos@ucsal.edu.br; (71) 98669-2228
-    \tMatheus Medeiros; matheus.medeiros@ucsal.edu.br; (71) 98821-8445\n
-"""
+    lex_table = ""
 
     def get_reserved_table(self):
         return {
