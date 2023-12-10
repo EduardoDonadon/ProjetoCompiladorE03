@@ -1,0 +1,36 @@
+
+Código da Equipe: E03
+Componentes:
+    	Eduardo Donadon; eduardodonadon.silva@ucsal.edu.br; (71) 99175-7234
+    	Luis Felipe; luisfelipe.santos@ucsal.edu.br; (71) 98669-2228
+    	Matheus Medeiros; matheus.medeiros@ucsal.edu.br; (71) 98821-8445
+
+RELATÓRIO DA TABELA ED SÍMBOLOS. Texto fonte analisado: test.TAB
+----------------------------------------------------------------------------------------------------
+Index: 1, Codigo: C07, Lexeme: TEST, Tipo: STR, QTD Antes Truncagem: 4, QTD Depis Truncagem: None, Linhas: 1 9 32 36
+Index: 2, Codigo: C07, Lexeme: FILE, Tipo: STR, QTD Antes Truncagem: 4, QTD Depis Truncagem: None, Linhas: 1
+Index: 3, Codigo: C07, Lexeme: SECOND, Tipo: STR, QTD Antes Truncagem: 6, QTD Depis Truncagem: None, Linhas: 3
+Index: 4, Codigo: C07, Lexeme: LINE, Tipo: STR, QTD Antes Truncagem: 4, QTD Depis Truncagem: None, Linhas: 3 4
+Index: 5, Codigo: C07, Lexeme: THIRD, Tipo: STR, QTD Antes Truncagem: 5, QTD Depis Truncagem: None, Linhas: 4
+Index: 6, Codigo: C07, Lexeme: VAR, Tipo: STR, QTD Antes Truncagem: 3, QTD Depis Truncagem: None, Linhas: 7 12 13 13 13
+Index: 7, Codigo: C03, Lexeme: 10, Tipo: INT, QTD Antes Truncagem: 2, QTD Depis Truncagem: None, Linhas: 7
+Index: 8, Codigo: C03, Lexeme: 1230, Tipo: INT, QTD Antes Truncagem: 4, QTD Depis Truncagem: None, Linhas: 7
+Index: 9, Codigo: C07, Lexeme: VAR1, Tipo: STR, QTD Antes Truncagem: 4, QTD Depis Truncagem: None, Linhas: 12
+Index: 10, Codigo: C03, Lexeme: 20, Tipo: INT, QTD Antes Truncagem: 2, QTD Depis Truncagem: None, Linhas: 12
+Index: 11, Codigo: C07, Lexeme: VAR6, Tipo: STR, QTD Antes Truncagem: 4, QTD Depis Truncagem: None, Linhas: 13
+Index: 12, Codigo: C07, Lexeme: VAREMPTY, Tipo: STR, QTD Antes Truncagem: 8, QTD Depis Truncagem: None, Linhas: 17
+Index: 13, Codigo: C03, Lexeme: 3, Tipo: INT, QTD Antes Truncagem: 1, QTD Depis Truncagem: None, Linhas: 18
+Index: 14, Codigo: C07, Lexeme: SPACE, Tipo: STR, QTD Antes Truncagem: 5, QTD Depis Truncagem: None, Linhas: 19
+Index: 15, Codigo: C01, Lexeme: "MY CHAIN", Tipo: CHC, QTD Antes Truncagem: 10, QTD Depis Truncagem: None, Linhas: 20
+Index: 16, Codigo: C07, Lexeme: EMPTYCHAR, Tipo: STR, QTD Antes Truncagem: 9, QTD Depis Truncagem: None, Linhas: 23
+Index: 17, Codigo: C02, Lexeme: 'MYCHAR', Tipo: CHC, QTD Antes Truncagem: 8, QTD Depis Truncagem: None, Linhas: 25
+Index: 18, Codigo: C07, Lexeme: ABCDEFGHIJKLMNOPQRSTUVWXYZ1234, Tipo: STR, QTD Antes Truncagem: 34, QTD Depis Truncagem: 30, Linhas: 27
+Index: 19, Codigo: C03, Lexeme: 1, Tipo: INT, QTD Antes Truncagem: 1, QTD Depis Truncagem: None, Linhas: 28
+Index: 20, Codigo: C07, Lexeme: CHAR, Tipo: STR, QTD Antes Truncagem: 4, QTD Depis Truncagem: None, Linhas: 28
+Index: 21, Codigo: C03, Lexeme: 123, Tipo: INT, QTD Antes Truncagem: 3, QTD Depis Truncagem: None, Linhas: 30
+Index: 22, Codigo: C07, Lexeme: ABC, Tipo: STR, QTD Antes Truncagem: 3, QTD Depis Truncagem: None, Linhas: 30 31
+Index: 23, Codigo: C07, Lexeme: NSEI, Tipo: STR, QTD Antes Truncagem: 4, QTD Depis Truncagem: None, Linhas: 33
+Index: 24, Codigo: C04, Lexeme: 10.2, Tipo: PFO, QTD Antes Truncagem: 4, QTD Depis Truncagem: None, Linhas: 34
+Index: 25, Codigo: C07, Lexeme: FILEE, Tipo: STR, QTD Antes Truncagem: 5, QTD Depis Truncagem: None, Linhas: 36
+Index: 26, Codigo: C04, Lexeme: 20.5, Tipo: PFO, QTD Antes Truncagem: 4, QTD Depis Truncagem: None, Linhas: 40
+Index: 27, Codigo: C07, Lexeme: SEILA, Tipo: STR, QTD Antes Truncagem: 5, QTD Depis Truncagem: None, Linhas: 41

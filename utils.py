@@ -68,13 +68,37 @@ class Utils:
             "C07": "variavel",
         }
 
+    def contains_only_numbers_and_dot(self, lexeme):
+        if not lexeme:
+            return False
+
+        dot_count = 0
+        for char in lexeme:
+            if not (char.isdigit() or (char == "." and dot_count == 0)):
+                return False
+            if char == ".":
+                dot_count += 1
+
+        return True
+
     def get_lex_code(self, lexeme):
         table = self.get_reserved_table()
+        code = "A02"
         if any(lexeme == value for value in table.values()):
             for key, value in table.items():
                 if value == lexeme:
-                    return key
-        return "A02"
+                    code = key
+
+        if self.contains_only_numbers_and_dot(lexeme) and len(lexeme) > 1:
+            code = "A18"
+
+        if lexeme.endswith('"'):
+            code = "A01"
+
+        if code == "B17.2":
+            code = "B17"
+
+        return code
 
     def add_lex_table(self, lexeme, line):
         code = self.get_lex_code(lexeme)
@@ -88,8 +112,7 @@ class Utils:
             and not lexeme == "*"
             and not lexeme == "/"
             and not lexeme == "="
-            and not lexeme == "'"
-            and not lexeme == '"'
+            and not lexeme == "$"
             and not lexeme == "_"
         ):
             self.lex_table.append(
